@@ -1,0 +1,30 @@
+<?php
+$usuario = Zend_Auth::getInstance()->getIdentity();
+
+if (@$usuario) {
+?>
+<ul class="nav">
+    <?php
+//    var_dump($this->aplicacao);
+//    die();
+    $aplicacao = Aplicacao::buscarNome($this->aplicacao['module']);
+    $models = AplicacaoModulo::buscar($aplicacao->codAplicacao);
+    
+    ?>
+    <li><a href="<?php echo $this->url(array('module' => $aplicacao->linkAplicacao, 'controller' => "index", 'action' => 'index')); ?>">Home</a></li>
+    <?php
+    
+    foreach ($models as $model) {
+        
+        if (Perfil::validarModulo($aplicacao->linkAplicacao, $model->linkModulo)) {
+        
+        ?>
+            <li><a href="<?php echo $this->url(array('module' => $aplicacao->linkAplicacao, 'controller' => $model->linkModulo, 'action' => 'listar')); ?>"><?php echo $model->nomeModulo; ?></a></li>
+        <?php
+        }
+
+    }
+    
+}
+?>
+</ul>

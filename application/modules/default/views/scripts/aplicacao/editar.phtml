@@ -1,0 +1,86 @@
+<?php
+$aplicacao = $this->app;
+$modulos = $this->modulos;
+?>
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('#descricao').focus();
+        $('#form').validate( {
+            rules: {
+                descricao: {required: true}
+            },
+            messages: {
+                descricao: { required: 'Digite a descrição' }
+            }
+        });
+    });
+</script>
+<div class="header-content">
+    <h2 class="left">Aplicação</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Formulário de Aplicações</legend>
+                            
+                            <form action="" method="post" id="form">
+                                <input type="hidden" name="codAplicacao" value="<?php echo $aplicacao->codAplicacao; ?>" />
+                                <ul class="list-cadastro">
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="descricao">Descrição</label></p>
+                                                <input class="width_220" name="nomeAplicacao" id="descricao" 
+                                                        type="text" maxlength="50"
+                                                        value="<?php echo $aplicacao->nomeAplicacao; ?>"
+                                                        class="required"/>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="modulo">Módulos:</label></p>
+                                                <?php
+                                                foreach ($modulos as $modulo) {
+                                                    $am = AplicacaoModulo::buscarLinha($aplicacao->codApplicacao, $modulo->codModulo);
+                                                    
+                                                    $checked = "checked='checked'";
+                                                    ?>
+                                                    <div>
+                                                        <div class="inline-block" style="height: 12px;">
+                                                            <input type="checkbox" name="modulo[]" 
+                                                                    <?php echo ($modulo->codModulo == @$am->codModulo) ? $checked : ""; ?>
+                                                                    value="<?php echo $modulo->codModulo; ?>" />
+                                                        </div>
+                                                        <div class="inline-block"><?php echo $modulo->nomeModulo; ?></div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <input type="submit" class="button" value=" Editar " />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                            
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

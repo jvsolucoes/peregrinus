@@ -1,0 +1,92 @@
+<?php
+$this->aplicacao['controller'];
+$usuarios = $this->usuarios;
+?>
+<div class="header-content">
+    <h2 class="left">Usuário</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_10">
+    <a class="btn_1" href="<?php echo $this->url(array("action" => "cadastrar"));?>">cadastrar usuário</a>
+</div>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Lista de Usuários</legend>
+                            
+                            <?php
+                            if ($usuarios) {
+                            ?>
+                            
+                            <div class="table">
+                                <table id="lista" class="widefat fixed" width="100%">
+                                    <thead class="tr-header">
+                                        <tr>
+                                            <th align="left">
+                                                Nome
+                                            </th>
+                                            <th align="left">
+                                                Email
+                                            </th>
+                                            <th align="center" width="20%">
+                                                Ações
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($usuarios as $usuario) {
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <?php 
+                                                    if ($usuario->id_trabalhador == 0) {
+                                                        echo "ADMINISTRADOR";
+                                                    } else {
+                                                        $trabalhador = $usuario->findParentRow('Trabalhador');
+                                                        echo $trabalhador->nome;
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $usuario->email; ?>
+                                                </td>
+                                                <td align="center">
+                                                    <a href="<?php echo $this->url(array("controller" => "usuario", "action" => "editar", "id" => $usuario->id));?>" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-editar.png" width="20px" title="editar" />
+                                                    </a>
+                                                    <a href="<?php echo $this->url(array("controller" => "usuario", "action" => "excluir", "id" => $usuario->id));?>" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/error.png" width="20px" title="editar" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php
+                            } else {
+                                ?>
+                                <div>
+                                    Não existe módulo cadastrado
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

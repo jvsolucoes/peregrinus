@@ -1,0 +1,79 @@
+<?php
+$this->aplicacao['controller'];
+$aplicacoes = $this->aplicacoes;
+?>
+<div class="header-content">
+    <h2 class="left">Aplicação</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_10">
+    <a class="btn_1" href="<?php echo $this->url(array("action" => "cadastrar"));?>">cadastrar aplicação</a>
+</div>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Lista de Aplicações</legend>
+                            
+                            <?php
+                            if ($aplicacoes) {
+                            ?>
+                            
+                            <div class="table">
+                                <table id="lista" class="widefat fixed" width="100%">
+                                    <thead class="tr-header">
+                                        <tr>
+                                            <th align="left">
+                                                Descrição
+                                            </th>
+                                            <th align="center" width="20%">
+                                                Ações
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($aplicacoes as $aplicacao) {
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $aplicacao->nomeAplicacao; ?>
+                                                </td>
+                                                <td align="center">
+                                                    <a href="<?php echo $this->url(array("controller" => "aplicacao", "action" => "editar", "id" => $aplicacao->codAplicacao));?>" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-editar.png" width="20px" title="editar" />
+                                                    </a>
+                                                    <a href="<?php echo $this->url(array("controller" => "aplicacao", "action" => "excluir", "id" => $aplicacao->codAplicacao));?>" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/error.png" width="20px" title="editar" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <?php
+                            } else {
+                                ?>
+                                <div>
+                                    Não existe módulo cadastrado
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

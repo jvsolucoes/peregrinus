@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('#descricao').focus();
+        $('#form').validate( {
+            rules: {
+                descricao: {required: true}
+            },
+            messages: {
+                descricao: { required: 'Digite a descrição' }
+            }
+        });
+    });
+</script>
+<div class="header-content">
+    <h2 class="left">Ação</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Formulário de Ação</legend>
+                            
+                            <form action="" method="post" id="form">
+                                <ul class="list-cadastro">
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="descricao">Descrição</label></p>
+                                                <input class="width_220" name="nomeAcao" id="descricao" 
+                                                        type="text" maxlength="50" value=""
+                                                        class="required"/>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <input type="submit" class="button" value=" Cadastrar " />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                            
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,339 @@
+<?php
+$usuario = Zend_Auth::getInstance()->getIdentity();
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>PD Pirímetros Irrigados</title>
+
+        <!--CSS-->
+        <link rel="stylesheet" type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/css/estilo.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/css/typografia.css"/>
+        <link type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/css/cupertino/jquery.css" rel="stylesheet" />
+        <!--End CSS-->
+
+        <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-1.5.2.js" type="text/javascript"></script>
+        <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery.meio.mask.js" type="text/javascript"></script>
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-autocomplete/jquery.autocomplete.js"></script>
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/combodinamico.js"></script>
+
+        <!-- Tooltip -->
+        <link rel="stylesheet" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-tooltip/jquery.tooltip.css" />
+        <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-tooltip/jquery.tooltip.js" type="text/javascript"></script>
+        <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-validate/jquery.validate.js" type="text/javascript"></script>
+<!--        <script src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-tooltip/jquery.alphanumeric.js" type="text/javascript"></script>-->
+        <!--End Tooltip-->
+
+        <!-- Alerts  -->
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-alerts/jquery.alerts.js"></script>
+        <link type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-alerts/jquery.alerts.css" rel="stylesheet" media="screen" />
+        <!--End Alerts -->
+
+        <!--Datepicker-->
+        <link type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-ui-1.8.17.custom/development-bundle/themes/base/jquery.ui.all.css" rel="stylesheet" />
+        <link type="text/css" href="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-ui-1.8.17.custom/development-bundle/themes/cupertino/ui.datepicker.css" rel="stylesheet" />
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-ui-1.8.17.custom/development-bundle/ui/ui.core.js"></script>
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-ui-1.8.17.custom/development-bundle/ui/ui.datepicker.js"></script>
+        <script type="text/javascript" src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/js/jquery-ui-1.8.17.custom/development-bundle/ui/i18n/ui.datepicker-pt-BR.js"></script>
+        <!--End Datepicker-->
+
+        
+        
+        <script type="text/javascript">
+            $(document).ready(function($){
+                $("input").setMask();
+
+//                $("span.tooltip").tooltip({
+//                    left: 5,
+//                    top: -15,
+//                    track: true,
+//                    opacity: 1,
+//                    showBody: " - ",
+//                    extraClass: "tip"
+//                });
+
+                $(".menu").click(function() {
+                    $(".menu").removeClass("active");
+                    $(this).addClass("active");
+                });
+
+            });
+            
+
+            /*
+             *Essa fun��o valida qualquer data (dia, mes e ano)
+             *O primeiro par�metro � o campo da data (obrigat�rio).
+             *O segundo par�metro � o nome do campo, para caso de existirem
+             * 2 campos que precisam ser validados na mesma tela (opcional: caso n�o setado,
+             * o nome do campo na msg de erro ser� "Data".
+             *O terceiro par�metro se restringe em limitar a verifica��o da data at� a data atual, ou at� 10 anos depois.
+             * ela � do tipo boolean, caso passada como true ela limita a data at� a data de hoje. (obrigat�rio).
+             * O quarto par�metro � o "name" do input do campo
+             */
+            function validarData(data, nomeCampo, limite, campo){
+                var dataEscolhida = data;
+                dataAtual = new Date();
+                anoBissexto = 1996;
+                
+                if(dataEscolhida != ""){
+                    if(limite == false){
+                        dia = 31;
+                        mes = 12;
+                        anoFuturo = dataAtual.getFullYear()+10;
+                        anoPassado = dataAtual.getFullYear()-100;
+                    } else {
+                        ano = dataAtual.getFullYear();
+                        anoPassado = dataAtual.getFullYear()-100;
+                        if(dataEscolhida.substring(6,10) ==  ano){
+                            mes = dataAtual.getMonth()+1;
+                            if((dataAtual.getMonth()+1) > parseInt(dataEscolhida.substring(3,5)) ){
+                                dia = 31;
+                            } else {
+                                dia = dataAtual.getDate();
+                            }
+                        } else {
+                            mes = 12;
+                            dia = 31;
+                        }
+                    }
+
+                    if(!nomeCampo){
+                        nomeCampo = "Data";
+                    }
+
+                    if((dataEscolhida.substring(6, 10) > ((limite==false) ? anoFuturo : ano)) || (anoPassado > dataEscolhida.substring(6, 10))){
+                        campo.value = "";
+                        campo.focus();
+                        alert("<?php echo utf8_encode("O ano escolhido para o campo ") ?> '" + nomeCampo + "' <?php echo utf8_encode("� inv�lido. Para essa data o sistema s� aceita anos que estejam entre 100 anos antes e ") ?> " + ((limite == false) ? "10 anos depois da data atual." : "o ano atual."));
+                        return false;
+                    } else {
+                        if(dataEscolhida.substring(3, 5) > mes){
+                            campo.value = "";
+                            campo.focus();
+                            alert("<?php echo utf8_encode("O m�s escolhido para o campo ") ?> '" + nomeCampo + "' <?php echo utf8_encode("� inv�lido.") ?>" + ((limite==false) ? " <?php echo utf8_encode("O n�mero do m�s deve estar entre 01 e ") ?>" + mes + "." : " <?php echo utf8_encode("A data limite para este campo �:") ?> " + dia + "/" + mes + "/" + ano + "."));
+                            return false;
+                        } else {
+                            if (dataEscolhida.substring(0, 2) > dia){
+                                dia = (limite==true) ? dataAtual.getDate() : 31;
+                                campo.value = "";
+                                campo.focus();
+                                alert("<?php echo utf8_encode("O dia escolhido para o campo"); ?> '" + nomeCampo + "' <?php echo utf8_encode("� inv�lido."); ?>" + ((limite==false) ? " <?php echo utf8_encode("O n�mero do dia deve estar entre 01 e "); ?> " + dia + "." : " <?php echo utf8_encode("A data limite para este campo �:"); ?> " + dia + "/" + mes + "/" + ano + "."));
+                                return false;
+                            } else {
+                                if(((dataEscolhida.substring(6,10) - anoBissexto)%4 == 0)){
+                                    diaFevereiro = 29;
+                                    mensagem = "<?php echo utf8_encode("O m�s fevereiro setado no campo "); ?> '" + nomeCampo + "' <?php echo utf8_encode("possui no m�ximo 29 dias. Pois o ano setado � bissexto."); ?> ";
+                                } else {
+                                    diaFevereiro = 28;
+                                    mensagem = "<?php echo utf8_encode("O m�s fevereiro setado no campo"); ?> '" + nomeCampo + "' <?php echo utf8_encode("possui no m�ximo 28 dias. Pois o ano setado n�o � bissexto."); ?> ";
+                                }
+                                if((dataEscolhida.substring(0,2) > diaFevereiro) && (dataEscolhida.substring(3,5) == 02)){
+                                    campo.value = "";
+                                    campo.focus();
+                                    alert(mensagem);                                    
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }// fim da verifica��o do ano bissexto
+                        }
+                    }
+                }else{
+                    return true;
+                }
+            }
+
+            //		window.setTimeout('hideFlash()', 3000);
+            //		function hideFlash(){
+            //			$('div#flash').fadeOut();
+            //		}
+            function selected(obj){
+                var lilist = document.getElementById('menuinline');
+                var alist = lilist.getElementsByTagName('a');
+                
+                for (i=0; i < alist.length; i++ ) {
+                    alist[i].className="";
+                }
+                obj.className = "active";
+            }
+            
+            
+            function validaDataComMesAno(objeto, nomeCampo) {
+                campo = objeto.value;
+                campo = campo.replace("/", "");
+                erro = false;
+                if (isNaN(campo)) {
+                    alert("<?php echo "O campo: " ?>" + nomeCampo + "<?php echo utf8_encode(" aceita apenas n�meros."); ?>");
+                    objeto.value = '';
+                    objeto.focus();
+                    return false;
+                }else{
+                    if((campo.length > 0 && campo.length < 3) || campo.length > 6){
+                        msgErro = "<?php echo utf8_encode(", data v�lida"); ?>";
+                        erro = true;
+                    }else{   
+                        mes = campo.substring(0, 2);
+                        ano = campo.substring(2,6);
+                        dataAtual = new Date();
+                        anoAtual = dataAtual.getFullYear();  
+
+                        if(mes < 1 || mes > 12){
+                            
+                            msgErro = "<?php echo utf8_encode(" m�s v�lido!"); ?>";
+                            erro = true;
+                        }
+                        if(ano > anoAtual || ano < (anoAtual - 90)){
+                            msgErro = "<?php echo utf8_encode(" ano anterior ao ano atual ou que esteja entre o ano atual e 90 anos antes!"); ?>";
+                            erro = true;
+                        }
+                        if(ano == anoAtual ){
+                            if ((mes < 1 || mes > 12)){
+                                msgErro = "<?php echo utf8_encode(" m�s v�lido!"); ?>";
+                                erro = true;
+                            }
+                            if(mes > (dataAtual.getMonth()+1)){
+                                msgErro = "<?php echo utf8_encode(" m�s anterior ao m�s atual!"); ?>";
+                                erro = true;
+                            }
+                        }
+                    }
+
+                    if (erro){
+                        alert("No campo: " + nomeCampo + ", informe um(a) " + msgErro);
+                        objeto.value = '';
+                        objeto.focus();
+                        return false;
+                    } else{
+                        return true;
+                    } 
+                }                
+            }
+
+            function mascaraDataMesAno(e,args){         
+                // Funcao que permite apenas teclas num�ricas e  
+                // todos os caracteres que estiverem na lista 
+                // de argumentos. 
+                // Deve ser chamada no evento onKeyPress desta forma 
+                //  onKeyPress="return (soNums(event,'0'));" 
+                // caso queira apenas permitir caracters como por exemplo um campo que s� aceite valores em Hexadecimal (de 0 a F) usamos 
+                //  onKeyPress ="return (soNums(event,'AaBbCcDdEeFf'));" 
+                var evt= (e.keyCode?e.keyCode:e.charCode); 
+                var chr= String.fromCharCode(evt);
+                
+                return (evt <20 || (evt >47 && evt<58) || (args.indexOf(chr)>-1 ) ); 
+            }
+            
+            function mascara(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout("execmascara()",1)
+            }
+
+            function execmascara(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
+            function soNumeros(v){
+                return v.replace(/\D/g,"")
+            }
+            
+            function soNums(e, args) {
+                var evt= (e.keyCode?e.keyCode:e.charCode); 
+                var chr= String.fromCharCode(evt);
+                
+                return (evt <20 || (evt >47 && evt<58) || (args.indexOf(chr)>-1 ) ); 
+            }
+            
+            window.setTimeout('hideFlash()', 3000);
+            function hideFlash(){
+                $('div#flash').fadeOut();
+            }
+        </script>
+
+
+    </head>
+
+    <body class="admin">
+
+        <div id="wrap" class="container">
+            <div id="content">
+                <header>
+                    <div class="header">
+                        <a href="" style="text-decoration: none;" >
+                            <h1 class="left">Pereginus</h1>
+                        </a>
+                        <?php
+                        if ($usuario) {
+                            ?>
+                            <p class="left logado">
+                                <strong>Ol&aacute;,
+                                    <?php echo $usuario->nome_razao; ?>
+                                </strong>
+                                &nbsp; | &nbsp;
+                                <a title="trocar senha" 
+                                   href="<?php echo $this->url(array("controller" => "usuario", "action" => "trocarsenha", "id" => $usuario->id)); ?>">
+                                    trocar senha
+                                </a>
+                                &nbsp; | &nbsp;
+                                <a title="sair" href="<?php echo $this->url(array("controller" => "index", "action" => "logout"));?>">sair</a>
+                            </p>
+                        <?php } ?>
+                    </div>  
+                </header>
+
+                <!--fim div head-->
+
+                <div id="main">
+                    <div >
+                        <?php
+                        if ($usuario) {
+                            echo $this->render("menu.phtml");
+                        } else {
+                            echo $this->render("login.phtml");
+                        }
+                        ?>
+                    </div>
+
+                    <div id="main-content" class="content">
+                        <div style="height:30px;margin-bottom:10px;margin-top:10px;">
+                            <center>
+                                <?php
+                                if ($this->mensagem) {
+                                    ?>
+                                    <div id="flash" class="flash">
+                                        <strong>
+                                            <?php echo $this->mensagem . "\n"; ?>
+                                        </strong>
+                                    </div>
+                                    <?php
+                                    unset($this->mensagem);
+                                }
+                                ?>
+                            </center>
+                        </div>
+                        <?php 
+                            if ($usuario) {
+                                echo $this->layout()->content; 
+                            }
+                        ?>
+                    </div>
+
+                </div>
+                <!--fim div main-->
+            </div>
+            <!--fim div content-->
+        </div>
+        <!--fim div wrap-->
+
+    <footer>
+        <div class="footer" style="margin-bottom:0px;">
+            <div class="container">
+                <p class="left"></p>
+            </div>
+        </div>
+    </footer><!-- footer -->
+
+</body>
+</html>

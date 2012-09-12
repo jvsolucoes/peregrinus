@@ -1,0 +1,188 @@
+<?php
+$trabalhadores = $this->trabalhadores;
+$aplicacoes = $this->aplicacoes;
+?>
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('#nome').focus();
+        $('#form').validate( {
+            rules: {
+                trabalhador: {
+                    required: true
+                },
+                login: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                senha: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 20
+                },
+                confirma_senha: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 20,
+                    equalTo: '#senha'
+                }
+            },
+            messages: {
+                trabalhador: { required: 'Escolha o nome' },
+                login: {
+                    required: 'Digite o login',
+                    minlength: 'O login não pode conter menos do que 3 caracteres',
+                    maxlength: 'O login não pode conter menos do que 20 caracteres'
+                },
+                senha: {
+                    required: 'Digite a senha',
+                    minlength: 'O senha não pode conter menos do que 4 caracteres',
+                    maxlength: 'O senha não pode conter menos do que 20 caracteres'
+                },
+                confirma_senha: {
+                    required: 'Digite a confirmação da senha',
+                    minlength: 'O confirmação da senha não pode conter menos do que 4 caracteres',
+                    maxlength: 'O confirmação da senha não pode conter menos do que 20 caracteres',
+                    equalTo: 'A confirmação de senha deve ser igual a senha'
+                }
+            }
+        });
+    });
+</script>
+<div class="header-content">
+    <h2 class="left">Usuário</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Formulário de Usuário</legend>
+                            
+                            <form action="" method="post" id="form">
+                                <ul class="list-cadastro">
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="nome">Nome:</label></p>
+                                                <select name="trabalhador" id="trabalhador">
+                                                    <option value="">Selecione...</option>
+                                                    <?php
+                                                    foreach ($trabalhadores as $trabalhador) {
+                                                        ?>
+                                                        <option value="<?php echo $trabalhador->id?>">
+                                                            <?php echo $trabalhador->nome; ?>
+                                                        </option>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="email">Email:</label></p>
+                                                <input class="width_345" name="email" id="email" 
+                                                        type="text" maxlength="250" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="login">Login:</label></p>
+                                                <input class="width_220" name="login" id="login" 
+                                                        type="text" maxlength="20" value="" />
+                                            </span>
+                                            <span class="left mrg-right_47">
+                                                <p><label for="senha">Senha:</label></p>
+                                                <input class="width_220" name="senha" id="senha" 
+                                                       type="password" maxlength="20" value="" />
+                                            </span>
+                                            <span class="left mrg-right_47">
+                                                <p><label for="csenha">Confirmação da senha:</label></p>
+                                                <input class="width_220" name="confirma_senha" id="confirma_senha" 
+                                                        type="password" maxlength="20" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="aplicacao">Aplicação / Módulo / Ação:</label></p>
+                                                <?php
+                                                foreach ($aplicacoes as $aplicacao) {
+                                                    ?>
+                                                    <div>
+                                                        <div class="inline-block" style="height: 12px;">
+<!--                                                            <input type="checkbox" name="aplicacao[]" value="<?php echo $aplicacao->id; ?>" />-->
+                                                        </div>
+                                                        <div class="inline-block"><?php echo $aplicacao->descricao; ?></div>
+                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
+                                                            <span>
+<!--                                                                <p><label for="modulo">Módulos:</label></p>-->
+                                                                <?php
+                                                                $modulos = Modulo::listar($aplicacao->id);
+                                                                foreach ($modulos as $modulo) {
+                                                                    ?>
+                                                                    <div>
+                                                                        <div class="inline-block" style="height: 12px;">
+<!--                                                                            <input type="checkbox" name="modulo[]" 
+                                                                                   value="<?php echo $modulo->id; ?>" />-->
+                                                                        </div>
+                                                                        <div class="inline-block"><?php echo $modulo->descricao; ?></div>
+                                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
+                                                                            <span>
+<!--                                                                                <p><label for="acao">Ações:</label></p>-->
+                                                                                <?php
+                                                                                $acoes = Acao::buscarPorModulo($modulo->id);
+                                                                                foreach ($acoes as $acao) {
+                                                                                    ?>
+                                                                                    <div>
+                                                                                        <div class="inline-block" style="height: 12px;">
+                                                                                            <input type="checkbox" name="permissao[<?php echo $aplicacao->id; ?>][<?php echo $modulo->id; ?>][<?php echo $acao->id; ?>]" 
+                                                                                                value="<?php echo $acao->id; ?>" />
+                                                                                        </div>
+                                                                                        <div class="inline-block"><?php echo $acao->descricao; ?></div>
+                                                                                    </div>
+                                                                                <?php
+                                                                                }
+                                                                                ?>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <input type="submit" class="button" value=" Cadastrar " />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                            
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

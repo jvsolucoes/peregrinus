@@ -1,0 +1,7 @@
+﻿Agencia: 4001
+Conta Corrente: 130024153
+C�digo / Cedente: 5361907
+Carteira: Simples R�pida sem Registro ( Carteira 102 nos boletos )
+C�digo de Transmiss�o CNAB 240: 400100005361907
+C�digo de Transmiss�o CNAB 400: 40010536190701300241
+Complemento: 53

@@ -1,0 +1,117 @@
+<?php
+$aplicacoes = $this->aplicacoes;
+?>
+<script type="text/javascript">
+    $(document).ready(function($){
+        $('#nome').focus();
+        $('#form').validate( {
+            rules: {
+                nomePerfil: {
+                    required: true
+                }
+            },
+            messages: {
+                nomePerfil: { required: 'Informe o nome' }
+            }
+        });
+    });
+</script>
+<div class="header-content">
+    <h2 class="left">Perfil</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Formulário de Perfil</legend>
+                            
+                            <form action="" method="post" id="form">
+                                <ul class="list-cadastro">
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="nomePerfil">Nome do Perfil:</label></p>
+                                                <input class="width_345" name="nomePerfil" id="nomePerfil" 
+                                                       type="text" maxlength="250" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="aplicacao">Aplicação / Módulo / Ação:</label></p>
+                                                <?php
+                                                foreach ($aplicacoes as $aplicacao) {
+                                                    ?>
+                                                    <div>
+                                                        <div class="inline-block" style="height: 12px;">
+<!--                                                            <input type="checkbox" name="aplicacao[]" value="<?php echo $aplicacao->id; ?>" />-->
+                                                        </div>
+                                                        <div class="inline-block"><?php echo $aplicacao->nomeAplicacao; ?></div>
+                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
+                                                            <span>
+<!--                                                                <p><label for="modulo">Módulos:</label></p>-->
+                                                                <?php
+                                                                $modulos = Modulo::listar($aplicacao->codAplicacao);
+                                                                foreach ($modulos as $modulo) {
+                                                                    ?>
+                                                                    <div>
+                                                                        <div class="inline-block" style="height: 12px;">
+<!--                                                                            <input type="checkbox" name="modulo[]" 
+                                                                                   value="<?php echo $modulo->id; ?>" />-->
+                                                                        </div>
+                                                                        <div class="inline-block"><?php echo $modulo->nomeModulo; ?></div>
+                                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
+                                                                            <span>
+<!--                                                                                <p><label for="acao">Ações:</label></p>-->
+                                                                                <?php
+                                                                                $acoes = Acao::buscarPorModulo($modulo->codModulo);
+                                                                                foreach ($acoes as $acao) {
+                                                                                    ?>
+                                                                                    <div>
+                                                                                        <div class="inline-block" style="height: 12px;">
+                                                                                            <input type="checkbox" name="permissao[<?php echo $aplicacao->codAplicacao; ?>][<?php echo $modulo->codModulo; ?>][<?php echo $acao->codAcao; ?>]"
+                                                                                                value="<?php echo $acao->codAcao; ?>" />
+                                                                                        </div>
+                                                                                        <div class="inline-block"><?php echo $acao->nomeAcao; ?></div>
+                                                                                    </div>
+                                                                                <?php
+                                                                                }
+                                                                                ?>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                <?php
+                                                                }
+                                                                ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <input type="submit" class="button" value=" Cadastrar " />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                            
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,19 +1,23 @@
 <?php
 /**
- * Description of UsuarioController
+ * Description of PerfilController
  *
  * @author victor
  */
-class UsuarioController extends Zend_Controller_Action {
+class PerfilController extends Zend_Controller_Action {
     
-    private $_modelUsuario;
-    private $_modelPerfil;   
+    private $_modelPerfil;
+    private $_modelAplicacao;
+    private $_modelModulo;
+    private $_modelAcao;
     
     public function init() {
         parent::init();
         
-        $this->_modelUsuario = new Usuario();
         $this->_modelPerfil = new Perfil();
+        $this->_modelAplicacao = new Aplicacao();
+        $this->_modelModulo = new Modulo();
+        $this->_modelAcao = new Acao();
         
         if (!Usuario::isLogged()) {
             $this->_forward("login", "index");
@@ -27,9 +31,9 @@ class UsuarioController extends Zend_Controller_Action {
     public function listarAction() {
         $this->view->aplicacao = $this->_getAllParams();
         
-        $usuarios = $this->_modelUsuario->fetchAll();
+        $perfis = $this->_modelPerfil->fetchAll();
         
-        $this->view->usuarios = $usuarios;
+        $this->view->perfis = $perfis;
     }
     
     public function cadastrarAction() {
@@ -39,14 +43,15 @@ class UsuarioController extends Zend_Controller_Action {
             
             $dados = $this->_request->getPost();
             
-            $this->_modelUsuario->inserir($dados);
+            $this->_modelPerfil->inserir($dados);
             
             $this->view->mensagem = "Usuário adicionado com sucesso!";
                 
             $this->_forward("listar");
         } else {
-            $perfis = $this->_modelPerfil->fetchAll(null, 'nomePerfil ASC');
-            $this->view->perfis = $perfis;
+            $aplicacoes = Aplicacao::listar();
+            
+            $this->view->aplicacoes = $aplicacoes;
         }
     }
     
@@ -57,21 +62,20 @@ class UsuarioController extends Zend_Controller_Action {
             
             $dados = $this->_request->getPost();
             
-            $this->_modelUsuario->editar($dados);
+            $this->_modelPerfil->editar($dados);
             
-            $this->view->mensagem = "Usuário editado com sucesso!";
+            $this->view->mensagem = "Perfil editado com sucesso!";
                 
             $this->_forward("listar");
         } else {
             $id = (int) $this->_getParam('id');
             
-            $usuario = $this->_modelUsuario->find($id)->current();
-            $perfis = $this->_modelPerfil->fetchAll(null, 'nomePerfil ASC');
+            $perfil = $this->_modelPerfil->find($id)->current();
+            $aplicacoes = Aplicacao::listar();
             
-            $this->view->perfis = $perfis;
-            $this->view->usuario = $usuario;
+            $this->view->aplicacoes = $aplicacoes;
+            $this->view->perfil = $perfil;
         }
         
     }
-    
 }

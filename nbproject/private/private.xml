@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/usuario/listar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/controllers/UsuarioController.php</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/models/Usuario.php</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/perfil/listar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/controllers/PerfilController.php</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/perfil/cadastrar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/perfil/editar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/usuario/cadastrar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/usuario/editar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/models/Perfil.php</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/controllers/IndexController.php</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/layouts/scripts/layout.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/acao/cadastrar.phtml</file>
+        <file>file:/media/sda3/Projetos/www/Dropbox/Peregrinus/application/modules/default/views/scripts/acao/editar.phtml</file>
+    </open-files>
+</project-private>

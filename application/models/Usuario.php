@@ -7,7 +7,7 @@
 class Usuario extends Zend_Db_Table_Abstract {
     
     protected $_name = "usuario";
-    protected $_primary = array("codUsuario");
+    protected $_primary = array("id");
     
     protected $_referenceMap = array(
         'Perfil' => array(
@@ -67,25 +67,22 @@ class Usuario extends Zend_Db_Table_Abstract {
     }
     
     public function inserir($dados) {
-        $this->inicializar();
         
-        $this->getAdapter()->beginTransaction();
+//        $this->getAdapter()->beginTransaction();
         
-        $usuario = $this->add($dados);
-        $dados['id_usuario'] = $usuario;
-        
-//        $this->_modelPerfilAplicacaoModuloAcao->inserir($dados);
-        
-        $this->getAdapter()->commit();
-    }
-    
-    private function add($dados) {
         $data = array(
-            'email' => $dados['email'],
             'login' => $dados['login'],
+            'email' => $dados['email'],
             'senha' => sha1($dados['senha']),
-            'id_trabalhador' => $dados['trabalhador']
+            'codPerfil' => $dados['perfil'],
+            'ativo' => 1
         );
+
+//        if (isset($dados['cpf'])) {
+//            $data['cpf_cnpj'] = Functions::replace($dados['cpf']);
+//        } else if (isset($dados['cnpj'])) {
+//            $data['cpf_cnpj'] = Functions::replace($dados['cnpj']);
+//        }
         
         try {
             $this->insert($data);
@@ -96,38 +93,40 @@ class Usuario extends Zend_Db_Table_Abstract {
         }
         
         return $idUsuario;
-    }
-    
-    public function editar($dados) {
-        $this->inicializar();
         
+//        $this->getAdapter()->commit();
+    }   
+    
+    public function editar($dados) {        
         $this->getAdapter()->beginTransaction();
         
-        $this->edit($dados);
-        $acao = "editar";
-        $this->_modelUsuarioAplicacaoModuloAcao->inserir($dados, $acao);
-        
-        $this->getAdapter()->commit();
-    }
-    
-    private function edit($dados) {
-        
         $data = array(
-            'email' => $dados['email'],
-            'login' => $dados['login']
+            'nome_razao' => $dados['nome'],
+            'tipo_pessoa' => $dados['tipoPessoa'],
+            'login' => $dados['login'],
+            'senha' => sha1($dados['senha']),
+            'codPerfil' => $dados['perfil']
         );
+
+        if (isset($dados['cpf'])) {
+            $data['cpf_cnpj'] = Functions::replace($dados['cpf']);
+        } else if (isset($dados['cnpj'])) {
+            $data['cpf_cnpj'] = Functions::replace($dados['cnpj']);
+        }
         
         if (isset($dados['senha'])) {
             $data['senha'] = sha1($dados['senha']);
         }
         
         try {
-            $where = $this->getAdapter()->quoteInto("id = ?", $dados['id_usuario']);
+            $where = $this->getAdapter()->quoteInto("id = ?", $dados['codUsuario']);
             $this->update($data, $where);
         } catch (Zend_Exception $e) {
             $this->getAdapter()->rollBack();
             throw new Zend_Exception("N&atilde;o foi possível editar os dados do usuário" . $e->getMessage());
         }
+        
+        $this->getAdapter()->commit();
     }
     
 }

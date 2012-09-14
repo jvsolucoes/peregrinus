@@ -36,15 +36,15 @@ class PerfilAplicacaoModuloAcao extends Zend_Db_Table_Abstract {
         )
     );
     
-    public function buscarIdUsuario($id) {
-        
-        $sql = $this->getAdapter()->select()
-                                ->from(array("tb_usuario_aplicacao_modulo_acao"),
+    public static function buscarIdPerfil($id) {
+        $pa = new PerfilAplicacaoModuloAcao();
+        $sql = $pa->getAdapter()->select()
+                                ->from(array("perfil_aplicacao"),
                                         array("*"))
-                                ->where("id_usuario = ?", $id);
+                                ->where("codPerfil = ?", $id);
 
-        $result = $this->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
-        $result = $this->getAdapter()->fetchAll($sql);
+        $result = $pa->getAdapter()->setFetchMode(Zend_Db::FETCH_OBJ);
+        $result = $pa->getAdapter()->fetchAll($sql);
 
         return $result;
     }
@@ -114,10 +114,12 @@ class PerfilAplicacaoModuloAcao extends Zend_Db_Table_Abstract {
         return $result;
     }
     
-    public function inserir($dados, $acao = NULL) {
+    public function inserir($dados) {
         
-        if ($acao == "editar") {
-            $where = $this->getAdapter()->quoteInto("id_usuario = ?", $dados['id_usuario']);
+        $existe = $this->fetchAll("codPerfil = " . $dados['codPerfil']);
+        
+        if ($existe->count() > 0) {
+            $where = $this->getAdapter()->quoteInto("codPerfil = ?", $dados['codPerfil']);
             $this->delete($where);
         }
         
@@ -130,17 +132,17 @@ class PerfilAplicacaoModuloAcao extends Zend_Db_Table_Abstract {
                 foreach ($modulos as $acao => $valor) {
 
                     $data = array(
-                        'id_usuario' => $dados['id_usuario'],
-                        'id_aplicacao' => $aplicacao,
-                        'id_modulo' => $modulo,
-                        'id_acao' => $acao
+                        'codPerfil' => $dados['codPerfil'],
+                        'codAplicacao' => $aplicacao,
+                        'codModulo' => $modulo,
+                        'codAcao' => $acao
                     );
                     
                     try {
                         $this->insert($data);                
                     } catch (Exception $e) {
                         $this->getAdapter()->rollBack();
-                        throw new Exception("N&atilde;o foi possível cadastrar a(s) permissão(ões) para este usuário" . $e->getMessage());
+                        throw new Exception("N&atilde;o foi possível cadastrar a(s) permissão(ões) para este perfil" . $e->getMessage());
                     }
                 }
                 

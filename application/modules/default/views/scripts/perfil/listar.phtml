@@ -1,14 +1,14 @@
 <?php
 $this->aplicacao['controller'];
-$usuarios = $this->usuarios;
+$pefis = $this->perfis;
 ?>
 <div class="header-content">
-    <h2 class="left">Usuário</h2>
+    <h2 class="left">Perfil</h2>
 </div>
 <hr class="mrg-top_10"/>
 
 <div class="mrg-top_10">
-    <a class="btn_1" href="<?php echo $this->url(array("action" => "cadastrar"));?>">cadastrar usuário</a>
+    <a class="btn_1" href="<?php echo $this->url(array("action" => "cadastrar"));?>">cadastrar perfil</a>
 </div>
 
 <div class="mrg-top_20">
@@ -20,10 +20,10 @@ $usuarios = $this->usuarios;
                 <div class="radius">
                     <div class="inside">
                         <fieldset>
-                            <legend>Lista de Usuários</legend>
+                            <legend>Lista de Perfil</legend>
                             
                             <?php
-                            if ($usuarios) {
+                            if ($pefis) {
                             ?>
                             
                             <div class="table">
@@ -31,10 +31,7 @@ $usuarios = $this->usuarios;
                                     <thead class="tr-header">
                                         <tr>
                                             <th align="left">
-                                                Nome
-                                            </th>
-                                            <th align="left">
-                                                Email
+                                                Nome do Perfil
                                             </th>
                                             <th align="center" width="20%">
                                                 Ações
@@ -43,20 +40,17 @@ $usuarios = $this->usuarios;
                                     </thead>
                                     <tbody>
                                         <?php
-                                        foreach ($usuarios as $usuario) {
+                                        foreach ($pefis as $perfil) {
                                             ?>
                                             <tr>
                                                 <td>
-                                                    <?php echo $usuario->nome_razao;?>
-                                                </td>
-                                                <td>
-                                                    <?php //echo $usuario->email; ?>
+                                                    <?php echo $perfil->nomePerfil;?>
                                                 </td>
                                                 <td align="center">
-                                                    <a href="<?php echo $this->url(array("controller" => "usuario", "action" => "editar", "id" => $usuario->id));?>" >
+                                                    <a href="<?php echo $this->url(array("controller" => "perfil", "action" => "editar", "id" => $perfil->codPerfil));?>" >
                                                         <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-editar.png" width="20px" title="editar" />
                                                     </a>
-                                                    <a href="<?php echo $this->url(array("controller" => "usuario", "action" => "excluir", "id" => $usuario->id));?>" >
+                                                    <a href="<?php echo $this->url(array("controller" => "perfil", "action" => "excluir", "id" => $perfil->codPerfil));?>" >
                                                         <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/error.png" width="20px" title="editar" />
                                                     </a>
                                                 </td>

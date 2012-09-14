@@ -1,0 +1,134 @@
+<div class="header-content">
+    <h2 class="left">Aplicação</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Cadastros de usuários</legend>
+
+                            <div class="table">
+                                <table id="lista" class="widefat fixed" width="100%">
+                                    <thead class="tr-header">
+                                        <tr>
+                                            <th align="left">
+                                                Descrição
+                                            </th>
+                                            <th align="center" width="20%">
+                                                Ação
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        switch ($this->perfil) {
+                                            //provedor scm
+                                            case "2":
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        Provedor SCM (Serviço de Comunicação Multimídia)
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorscm")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorscm")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-visualizar.png" width="20px" title="visualizar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                break;
+                                            //provedor sva
+                                            case "3":
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        Provedor SVA (Serviço de Valor Adicional)
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorsva")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Cliente
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "cliente")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                break;
+                                            //admin
+                                            default:
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        Provedor SCM (Serviço de Comunicação Multimídia)
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorscm")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "listarprovedorscm")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-visualizar.png" width="20px" title="visualizar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Provedor SVA (Serviço de Valor Adicional)
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorsva")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Cliente
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "cliente")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        ANATEL
+                                                    </td>
+                                                    <td align="center">
+                                                        <a href="<?php echo $this->url(array("controller" => "cadastro", "action" => "anatel")); ?>" >
+                                                            <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-cadastrar.png" width="20px" title="cadastrar" />
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                break;
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

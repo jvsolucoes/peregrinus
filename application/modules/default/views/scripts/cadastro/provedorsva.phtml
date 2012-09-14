@@ -1,0 +1,538 @@
+<script type="text/javascript">
+    $(document).ready(function($){
+        $(".pj").hide();
+        $(".pf").hide();
+
+        $("#tipo_pessoa").live('click', function(){
+            if($(this).val() == "PF"){
+                $(".pf").show();
+                $(".pj").hide();
+            }else{
+                $(".pj").show();
+                $(".pf").hide();
+            }
+        });
+        
+        $(".button-delete-responsavel").live('click', function(){
+            $(this).parent().fadeOut("slow").delay(1000).queue(function() { $(this).remove(); });
+            quantidadeResponsavel = parseInt($("#quantidadeDeResponsavel").val());
+            $("#quantidadeDeResponsavel").val(quantidadeResponsavel - 1);
+            if((quantidadResponsavel - 1) == 0){
+                $("#indiceDeResponsavel").val(0);
+            }
+        });
+        
+        $("#addResponsavel").live('click', function(){
+            $("<div class='mrg-top_10'>\n\
+                <input type='button' class='button-delete-responsavel right' value='x' />\n\
+                <li>\n\
+                    <div inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Nome:</label></p>\n\
+                            <input type='text' name='responsavel[add][" + $("#indiceDeResponsavel").val() +"][nome_contato]' class='width_485'\n\
+                                value=''\n\
+                                onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Setor:</label></p>\n\
+                            <input type='text' name='responsavel[add][" + $("#indiceDeResponsavel").val() +"][setor]' class='width_485'\n\
+                                value=''\n\
+                                onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>Telefone Comercial:</label></p>\n\
+                        <input type='text' name='perfil[add][" + $("#indiceDeResponsavelCoabitante").val() +"][telefone_com]' value=''\n\
+                            class='data width_130' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>Telefone Celular:</label></p>\n\
+                        <input type='text' name='perfil[add][" + $("#indiceDeResponsavelCoabitante").val() +"][telefone_cel]' value=''\n\
+                            class='data width_130' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>Telefone Residencial:</label></p>\n\
+                        <input type='text' name='perfil[add][" + $("#indiceDeResponsavelCoabitante").val() +"][telefone_res]' value=''\n\
+                            class='data width_130' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='mrg-top_10 inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>E-mail:</label></p>\n\
+                            <input type='text' name='responsavel[add][" + $("#indiceDeResponsavel").val() +"][email_contato]' class='width_485'\n\
+                                value=''\n\
+                                onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='mrg-top_10 inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Inserir assinatura:</label></p>\n\
+                            <input type='file' name='responsavel[add][" + $("#indiceDeResponsavel").val() +"][assinatura]' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <hr />\n\
+            </div>").appendTo("#divResponsavel");
+
+            quantidadeResponsavel = parseInt($("#quantidadeDeResponsavel").val());
+            $("#quantidadeDeResponsavel").val(quantidadeResponsavel + 1);
+            indiceResponsavel = parseInt($("#indiceDeResponsavel").val());
+            $("#indiceDeResponsavel").val(indiceResponsavel + 1);
+        });
+        
+        $(".button-delete-endereco").live('click', function(){
+            $(this).parent().fadeOut("slow").delay(1000).queue(function() { $(this).remove(); });
+            quantidadeEndereco = parseInt($("#quantidadeDeEndereco").val());
+            $("#quantidadeDeEndereco").val(quantidadeEndereco - 1);
+            if((quantidadEndereco - 1) == 0){
+                $("#indiceDeEndereco").val(0);
+            }
+        });
+        
+        $("#addEndereco").live('click', function(){
+            $("<div class='mrg-top_10'>\n\
+                <input type='button' class='button-delete-endereco right' value='x' />\n\
+                <li>\n\
+                    <div>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Tipo:</label></p>\n\
+                            <select name='endereco[add][" + $("#indiceDeEndereco").val() +"][tipo] id='estado'>\n\
+                                <option value='0'>Selecione ...</option>\n\
+                                <option value='C'>Cobrança</option>\n\
+                                <option value='I'>Instalação</option>\n\
+                                <option value='c'>Comercial</option>\n\
+                            </select>\n\
+                        </div>\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Logradouro:</label></p>\n\
+                            <input type='text' name='endereco[add][" + $("#indiceDeEndereco").val() +"][logradouro]' class='width_555'\n\
+                                value=''\n\
+                                onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>Número:</label></p>\n\
+                        <input type='text' name='endereco[add][" + $("#indiceDeEndereco").val() +"][numero]' class='width_80'\n\
+                            value=''\n\
+                            onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Complemento:</label></p>\n\
+                            <input type='text' name='endereco[add][" + $("#indiceDeEndereco").val() +"][complemento]' class='width_420' \n\
+                                value=''\n\
+                                onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>Cidade:</label></p>\n\
+                        <input type='text' name='endereco[add][" + $("#indiceDeEndereco").val() +"][cidade]' class='width_220' \n\
+                            value=''\n\
+                            onblur='javascript: this.value = this.value.toUpperCase();' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Estado:</label></p>\n\
+                            <select name='endereco[add][" + $("#indiceDeEndereco").val() +"][estado] id='estado'>\n\
+                                <option value='0'>Selecione ...</option>\n\
+                                <option value='ac'>Acre</option>\n\
+                                <option value='al'>Alagoas</option>\n\
+                                <option value='ap'>Amapá</option>\n\
+                                <option value='am'>Amazonas</option>\n\
+                                <option value='ba'>Bahia</option>\n\
+                                <option value='ce'>Ceará</option>\n\
+                                <option value='df'>Distrito Federal</option>\n\
+                                <option value='es'>Espirito Santo</option>\n\
+                                <option value='go'>Goiás</option>\n\
+                                <option value='ma'>Maranhão</option>\n\
+                                <option value='ms'>Mato Grosso do Sul</option>\n\
+                                <option value='mt'>Mato Grosso</option>\n\
+                                <option value='mg'>Minas Gerais</option>\n\
+                                <option value='pa'>Pará</option>\n\
+                                <option value='pb'>Paraíba</option>\n\
+                                <option value='pr'>Paraná</option>\n\
+                                <option value='pe'>Pernambuco</option>\n\
+                                <option value='pi'>Piauí</option>\n\
+                                <option value='rj'>Rio de Janeiro</option>\n\
+                                <option value='rn'>Rio Grande do Norte</option>\n\
+                                <option value='rs'>Rio Grande do Sul</option>\n\
+                                <option value='ro'>Rondônia</option>\n\
+                                <option value='rr'>Roraima</option>\n\
+                                <option value='sc'>Santa Catarina</option>\n\
+                                <option value='sp'>São Paulo</option>\n\
+                                <option value='se'>Sergipe</option>\n\
+                                <option value='to'>Tocantins</option>\n\
+                            </select>\n\
+                        </div>\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <span class='left mrg-right_47'>\n\
+                        <p><label>CEP:</label></p>\n\
+                        <input class='width_80' name='endereco[add][" + $("#indiceDeEndereco").val() +"][cep] id='cep'\n\
+                               type='text' value='' />\n\
+                    </span>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Caixa postal:</label></p>\n\
+                            <input class='width_420' name='endereco[add][" + $("#indiceDeEndereco").val() +"][caixa_postal] id='caixa_postal'\n\
+                                   type='text' value='' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <hr />\n\
+            </div>").appendTo("#divEndereco");
+            quantidadeEndereco = parseInt($("#quantidadeDeEndereco").val());
+            $("#quantidadeDeEndereco").val(quantidadeEndereco + 1);
+            indiceEndereco = parseInt($("#indiceDeEndereco").val());
+            $("#indiceDeEndereco").val(indiceEndereco + 1);
+        });
+        
+        $(".button-delete-servico").live('click', function(){
+            $(this).parent().fadeOut("slow").delay(1000).queue(function() { $(this).remove(); });
+            quantidadeServico = parseInt($("#quantidadeDeServico").val());
+            $("#quantidadeDeServico").val(quantidadeServico - 1);
+            if((quantidadServico - 1) == 0){
+                $("#indiceDeServico").val(0);
+            }
+        });
+        
+        $("#addServico").live('click', function(){
+            $("<div class='mrg-top_10'>\n\
+                <input type='button' class='button-delete-servico right' value='x' />\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Tipo de cobrança:</label></p>\n\
+                            <div class='inline-block' style='height: 10px;'>\n\
+                                <input type='radio' name='servico[add][" + $("#indiceDeServico").val() +"][tipo_cobranca]'  value='M' />\n\
+                            </div>\n\
+                            <div class='inline' style='padding-left: 17px; margin-top: -11px;'>Mensal</div>\n\
+                            <div class='inline-block' style='height: 10px;'>\n\
+                                <input type='radio' name='servico[add][" + $("#indiceDeServico").val() +"][tipo_cobranca]'  value='U' \n\
+                                       onclick='javascript: tipoPessoa(this.value);'/>\n\
+                            </div>\n\
+                            <div class='inline' style='padding-left: 17px; margin-top: -11px;'>Parcela única</div>\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Descrição:</label></p>\n\
+                            <textearea name='servico[add][" + $("#indiceDeServico").val() +"][descricao]' cols='65'\n\
+                                value='' onblur='javascript: this.value = this.value.toUpperCase();'></textarea>\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <li>\n\
+                    <div class='inline-block'>\n\
+                        <span class='left mrg-right_47'>\n\
+                            <p><label>Valor:</label></p>\n\
+                            R$ <input type='text' name='endereco[add][" + $("#indiceDeServico").val() +"][valor]' class='width_130'\n\
+                                value='' alt='decimal' />\n\
+                        </span>\n\
+                    </div>\n\
+                </li>\n\
+                <hr />\n\
+            </div>").appendTo("#divServico");
+            quantidadeServico = parseInt($("#quantidadeDeServico").val());
+            $("#quantidadeDeServico").val(quantidadeServico + 1);
+            indiceServico = parseInt($("#indiceDeServico").val());
+            $("#indiceDeServico").val(indiceServico + 1);
+        });
+    });
+</script>
+<div class="header-content">
+    <h2 class="left">Cadastro de Provedor SVA</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Formulário de Provedor SVA</legend>
+
+                            <form name="form-provedor-sva" action="<?php echo $this->url(array("controller" => "cadastro", "action" => "provedorsva")); ?>" method="post" id="form">
+                                <ul class="list-cadastro">
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Nome / Razão Social:</label></p>
+                                                <input class="width_345" name="nome_razaoSocial" id="nome_razaoSocial" 
+                                                       type="text" maxlength="150" value=""
+                                                       onblur="javascript: this.value = this.value.toUpperCase();" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Tipo:</label></p>
+                                                <div class="inline-block" style="height: 10px;">
+                                                    <input type="radio" name="tipo_pessoa"  id="tipo_pessoa" value="PF" />
+                                                </div>
+                                                <div class="inline" style="padding-left: 17px; margin-top: -11px;">Pessoa Física</div>
+                                                <div class="inline-block" style="height: 10px;">
+                                                    <input type="radio" name="tipo_pessoa"  id="tipo_pessoa" value="PJ" />
+                                                </div>
+                                                <div class="inline" style="padding-left: 17px; margin-top: -11px;">Pessoa Jurídica</div>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="pf">
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>CPF:</label></p>
+                                                <input class="width_130" name="cpf" id="cpf" alt="cpf"
+                                                       type="text" maxlength="14" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="pj">
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>CNPJ:</label></p>
+                                                <input class="width_130" name="cnpj" id="cnpj" alt="cnpj"
+                                                       type="text" maxlength="14" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="pj">
+                                        <span class="left mrg-right_47">
+                                            <p><label>Inscrição estadual:</label></p>
+                                            <input class="width_130" name="ie" id="ie"
+                                                   type="text" maxlength="40" value="" />
+                                        </span>
+                                    </li>
+                                    <li class="pj">
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Inscrição municipal:</label></p>
+                                                <input class="width_130" name="im" id="im"
+                                                       type="text" maxlength="45" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Nome fantasia:</label></p>
+                                                <input class="width_345" name="nome_fantasia" id="nome_fantasia"
+                                                       type="text" maxlength="45" value="" 
+                                                       onblur="javascript: this.value = this.value.toUpperCase();"/>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Atividade principal:</label></p>
+                                                <input class="width_345" name="atividade_principal" id="atividade_principal"
+                                                       type="text" value="" 
+                                                       onblur="javascript: this.value = this.value.toUpperCase();"/>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="left mrg-right_47">
+                                            <p><label>Telefone:</label></p>
+                                            <input class="width_130" name="telefone_com_1" id="telefone_com_1"
+                                                   type="text" maxlength="14" value="" />
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Telefone:</label></p>
+                                                <input class="width_130" name="telefone_com_2" id="telefone_com_2"
+                                                       type="text" maxlength="14" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <li class="mrg-top_20">
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Site:</label></p>
+                                                <input class="width_282" name="site" id="site"
+                                                       type="text" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Logomarca: </label></p>
+                                                <input type="file" name="logo" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Percentual de utilização do link:</label></p>
+                                                <input class="width_80" name="perc_utilizacao_link" id="perc_utilizacao_link"
+                                                       type="text" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Circuito(mbps):</label></p>
+                                                <input class="width_80" name="site" id="site"
+                                                       type="text" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Observações:</label></p>
+                                                <textarea name="observacoes" id="observacoes" 
+                                                          cols="65" onblur="javascript: this.value = this.value.toUpperCase();"></textarea>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <li class="mrg-top_10">
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Banco: </label></p>
+                                                <select name="codigo_banco" id="codigo_banco">
+                                                    <option value="0">Selecione...</option>
+                                                    <option value="santander">Santander</option>
+                                                </select>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="left mrg-right_47">
+                                            <p><label>Agencia:</label></p>
+                                            <input class="width_80" name="agencia" id="agencia"
+                                                   type="text" value="" />
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="left mrg-right_47">
+                                            <p><label>Conta:</label></p>
+                                            <input class="width_80" name="conta" id="conta"
+                                                   type="text" value="" />
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Operação:</label></p>
+                                                <input class="width_50" name="op" id="op"
+                                                       type="text" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Nome do Titular:</label></p>
+                                                <input class="width_345" name="nome_titular" id="nome_titular"
+                                                       type="text" value="" onblur="javascript: this.value = this.value.toUpperCase();"/>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block">
+                                            <span class="left mrg-right_47">
+                                                <p><label>Cpf ou Cnpj do titular:</label></p>
+                                                <input class="width_130" name="cpf_cnpj_titular" id="cpf_cnpj_titular"
+                                                       type="text" value="" />
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <hr />
+                                    <!--              ENDEREÇO                      -->
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <div id="adicionarEndereco">
+                                                <input type="hidden" id="quantidadeDeEndereco" value="1"/>
+                                                <input type="hidden" id="indiceDeEndereco" value="0"/>
+                                                <input type="button" class="button" id="addEndereco" value="+ Adicionar Endereço" style="clear:both"/>
+
+                                                <div id="divEndereco">
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </li>
+                                    <!--              SERVIÇO                      -->
+<!--                                    <li>
+                                        <div class="mrg-top_20">
+                                            <div id="adicionarServico">
+                                                <input type="hidden" id="quantidadeDeServico" value="1"/>
+                                                <input type="hidden" id="indiceDeServico" value="0"/>
+                                                <input type="button" class="button" id="addServico" value="+ Adicionar Serviço" style="clear:both"/>
+
+                                                <div id="divServico">
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </li>-->
+                                    <li>
+                                        <div class="mrg-top_20">
+                                            <div id="adicionarResponsavel">
+                                                <input type="hidden" id="quantidadeDeResponsavel" value="1"/>
+                                                <input type="hidden" id="indiceDeResponsavel" value="0"/>
+                                                <input type="button" class="button" id="addResponsavel" value="+ Adicionar Pessoas responsáveis pelo contato" style="clear:both"/>
+
+                                                <div id="divResponsavel">
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="mrg-top_30">
+                                            <input type="submit" class="button" value=" Cadastrar " />
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

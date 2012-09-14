@@ -6,10 +6,10 @@ $acao = $this->acao;
         $('#descricao').focus();
         $('#form').validate( {
             rules: {
-                descricao: {required: true}
+                nomeAcao: {required: true}
             },
             messages: {
-                descricao: { required: 'Digite a descrição' }
+                nomeAcao: { required: 'Digite o nome da ação' }
             }
         });
     });

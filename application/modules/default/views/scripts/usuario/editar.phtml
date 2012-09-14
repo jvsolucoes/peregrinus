@@ -1,10 +1,26 @@
 <?php
 $usuario = $this->usuario;
-$trabalhadores = $this->trabalhadores;
-$aplicacoes = $this->aplicacoes;
+$perfis = $this->perfis;
 ?>
 <script type="text/javascript">
     $(document).ready(function($){
+        
+        <?php
+        if ($usuario->tipo_pessoa == "PF") {
+        ?>
+            $("#pf").show();
+            $("#pj").hide();
+        <?php    
+        }
+        
+        if ($usuario->tipo_pessoa == "PJ") {
+        ?>
+            $("#pf").hide();
+            $("#pj").show();
+        <?php
+        }
+        ?>
+        
         $('#nome').focus();
         $('#form').validate( {
             rules: {
@@ -48,6 +64,17 @@ $aplicacoes = $this->aplicacoes;
                 }
             }
         });
+        
+        $(".tipoPessoa").click(function(){
+            var valor = $(this).val();
+            if (valor == "PF") {
+                $("#pf").show();
+                $("#pj").hide();
+            } else {
+                $("#pf").hide();
+                $("#pj").show();
+            }
+        });
     });
 </script>
 <div class="header-content">
@@ -67,35 +94,60 @@ $aplicacoes = $this->aplicacoes;
                             <legend>Formulário de Usuário</legend>
                             
                             <form action="" method="post" id="form">
-                                <input type="hidden" name="id_usuario" value="<?php echo $usuario->id; ?>" />
+                                <input type="hidden" name="codUsuario" value="<?php echo $usuario->id; ?>" />
                                 <ul class="list-cadastro">
                                     <li>
                                         <div class="inline-block">
                                             <span class="left mrg-right_47">
                                                 <p><label for="nome">Nome:</label></p>
-                                                <select name="trabalhador" id="trabalhador" disabled="disabled">
-                                                    <option value="">Selecione...</option>
-                                                    <?php
-                                                    $selected = "selected='selected'";
-                                                    foreach ($trabalhadores as $trabalhador) {
-                                                        ?>
-                                                        <option value="<?php echo $trabalhador->id?>"
-                                                                <?php echo ($trabalhador->id == $usuario->id_trabalhador) ? $selected : ""; ?> >
-                                                            <?php echo $trabalhador->nome; ?>
-                                                        </option>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                </select>
+                                                <input class="width_345" name="nome" id="nome" 
+                                                        type="text" maxlength="250" 
+                                                        value="<?php echo $usuario->nome_razao; ?>" />
                                             </span>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="inline-block">
                                             <span class="left mrg-right_47">
-                                                <p><label for="email">Email:</label></p>
-                                                <input class="width_345" name="email" id="email" 
-                                                        type="text" maxlength="250" value="<?php echo $usuario->email; ?>" />
+                                                <p><label for="tipoPessoa">Tipo de Pessoa:</label></p>
+                                                <div class="inline-block">
+                                                    <div class="inline-block" style="height: 12px;">
+                                                        <input type="radio" name="tipoPessoa" 
+                                                               value="PF" class="tipoPessoa" 
+                                                                <?php echo ($usuario->tipo_pessoa == "PF") ? "checked='checked'" : ""; ?>
+                                                               />
+                                                    </div>
+                                                    <div class="inline-block">Pessoa Física</div>
+                                                </div>
+                                                <div class="inline-block">
+                                                    <div class="inline-block" style="height: 12px;">
+                                                        <input type="radio" name="tipoPessoa" 
+                                                               value="PJ" class="tipoPessoa" 
+                                                                <?php echo ($usuario->tipo_pessoa == "PJ") ? "checked='checked'" : ""; ?>
+                                                               />
+                                                    </div>
+                                                    <div class="inline-block">Pessoa Jurídica</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="inline-block" id="pf">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="cpf_cnpj">CPF:</label></p>
+                                                <input type="text" name="cpf" 
+                                                       alt="cpf" class="width_220" 
+                                                       value="<?php echo ($usuario->tipo_pessoa == "PF") ? $usuario->cpf_cnpj : ""; ?>"
+                                                       />
+                                            </span>
+                                        </div>
+                                        <div class="inline-block" id="pj">
+                                            <span class="left mrg-right_47">
+                                                <p><label for="cpf_cnpj">CNPJ:</label></p>
+                                                <input type="text" name="cnpj" 
+                                                       alt="cnpj" class="width_220" 
+                                                       value="<?php echo ($usuario->tipo_pessoa == "PJ") ? $usuario->cpf_cnpj : ""; ?>"
+                                                       />
                                             </span>
                                         </div>
                                     </li>
@@ -121,68 +173,20 @@ $aplicacoes = $this->aplicacoes;
                                     <li>
                                         <div class="inline-block">
                                             <span class="left mrg-right_47">
-                                                <p><label for="aplicacao">Aplicação / Módulo / Ação:</label></p>
-                                                <?php
-                                                foreach ($aplicacoes as $aplicacao) {
-                                                    ?>
-                                                    <div>
-                                                        <div class="inline-block" style="height: 12px;">
-<!--                                                            <input type="checkbox" name="aplicacao[]" value="<?php echo $aplicacao->id; ?>" />-->
-                                                        </div>
-                                                        <div class="inline-block"><?php echo $aplicacao->descricao; ?></div>
-                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
-                                                            <span>
-<!--                                                                <p><label for="modulo">Módulos:</label></p>-->
-                                                                <?php
-                                                                $modulos = Modulo::listar($aplicacao->id);
-                                                                foreach ($modulos as $modulo) {
-                                                                    ?>
-                                                                    <div>
-                                                                        <div class="inline-block" style="height: 12px;">
-<!--                                                                            <input type="checkbox" name="modulo[]" 
-                                                                                   value="<?php echo $modulo->id; ?>" />-->
-                                                                        </div>
-                                                                        <div class="inline-block"><?php echo $modulo->descricao; ?></div>
-                                                                        <div style="margin-left: 20px; padding-bottom: 15px;">
-                                                                            <span>
-<!--                                                                                <p><label for="acao">Ações:</label></p>-->
-                                                                                <?php
-                                                                                $acoes = Acao::buscarPorModulo($modulo->id);
-                                                                                foreach ($acoes as $acao) {
-                                                                                    $userPermissao = $usuario->findDependentRowset('UsuarioAplicacaoModuloAcao');
-                                                                                    ?>
-                                                                                    <div>
-                                                                                        <div class="inline-block" style="height: 12px;">
-                                                                                            <input type="checkbox" name="permissao[<?php echo $aplicacao->id; ?>][<?php echo $modulo->id; ?>][<?php echo $acao->id; ?>]" 
-                                                                                                value="<?php echo $acao->id; ?>" 
-                                                                                                <?php
-                                                                                                foreach ($userPermissao as $permissao) {
-                                                                                                    if ($usuario->id == $permissao->id_usuario && $aplicacao->id == $permissao->id_aplicacao &&
-                                                                                                            $modulo->id == $permissao->id_modulo && $acao->id == $permissao->id_acao) {
-                                                                                                        echo "checked='checked'";
-                                                                                                    }
-                                                                                                }
-                                                                                                
-                                                                                                ?>
-                                                                                                />
-                                                                                        </div>
-                                                                                        <div class="inline-block"><?php echo $acao->descricao; ?></div>
-                                                                                    </div>
-                                                                                <?php
-                                                                                }
-                                                                                ?>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                <?php
-                                                                }
-                                                                ?>
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                <p><label for="aplicacao">Perfil:</label></p>
+                                                <select name="perfil">
+                                                    <option value="">Selecione...</option>
                                                     <?php
-                                                }
-                                                ?>
+                                                    foreach ($perfis as $perfil) {
+                                                    ?>
+                                                        <option value="<?php echo $perfil->codPerfil; ?>"
+                                                                <?php echo ($usuario->codPerfil == $perfil->codPerfil) ? "selected='selected'" : ""; ?>>
+                                                            <?php echo $perfil->nomePerfil; ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </span>
                                         </div>
                                     </li>

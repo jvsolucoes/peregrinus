@@ -1,0 +1,66 @@
+<?php
+$provedores = $this->provedores;
+?>
+<div class="header-content">
+    <h2 class="left">Provedores SCM</h2>
+</div>
+<hr class="mrg-top_10"/>
+
+<div class="mrg-top_20">
+    <div id="dashboard-wrap">
+        <div class="metabox"></div>
+        <div class="clear"></div>
+        <div class="box-content">
+            <div class="box">
+                <div class="radius">
+                    <div class="inside">
+                        <fieldset>
+                            <legend>Lista de Provedores SCM</legend>
+
+                            <div class="table">
+                                <table id="lista" class="widefat fixed" width="100%">
+                                    <thead class="tr-header">
+                                        <tr>
+                                            <th align="left">
+                                                Razão Social
+                                            </th>
+                                            <th align="center" width="20%">
+                                                Ação
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($provedores as $provedor) {
+                                            ?>
+                                            <tr>
+                                                <td>
+                                                    <?php echo $provedor->razao; ?>
+                                                </td>
+                                                <td align="center">
+                                                    <a href="#" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']); ?>/img/btn-editar.png" width="20px" title="editar" />
+                                                    </a>
+                                                    <?php
+                                                    $icone = $provedor->ativo == 0 ? "/img/ok.png" : "/img/error.png";;
+                                                    $titulo = $provedor->ativo == 0 ? "/img/ativar" : "desativar";
+                                                    ?>
+<!--                                                    <a href="<?php// echo $this->url(array("controller" => "aplicacao", "action" => "excluir", "id" => $aplicacao->codAplicacao));?>" >-->
+                                                    <a href="#" >
+                                                        <img src="<?php echo dirname($_SERVER['PHP_SELF']).$icone; ?>" width="20px" title="<?php echo $titulo;?>" />
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
